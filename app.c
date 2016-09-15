@@ -1,19 +1,4 @@
-/**
-  ******************************************************************************
-  * @file    main.c
-  * @author  fire
-  * @version V1.0
-  * @date    2015-xx-xx
-  * @brief   用1.5.1版本库建的工程模板
-  ******************************************************************************
-  * @attention
-  *
-  * 实验平台:秉火  STM32 F429 开发板 
-  * 论坛    :http://www.chuxue123.com
-  * 淘宝    :http://firestm32.taobao.com
-  *
-  ******************************************************************************
-  */
+
 #include "includes.h"
 #include "app.h"
 #include "F20HZK.h"
@@ -462,7 +447,7 @@ void emWinMainApp(void)
 	_MainIconWinPara.ySizeLCD = 400;				            //LCD屏幕尺寸
 	_MainIconWinPara.xSizeBM  = ICONVIEW_Width;				            //图标宽度
 	_MainIconWinPara.ySizeBM  = ICONVIEW_Height;				            //图标高度
-	_MainIconWinPara.xPosWin	 = MIDWIN_xPos;							          //窗口的起始位置
+	_MainIconWinPara.xPosWin =  MIDWIN_xPos;							          //窗口的起始位置
 	_MainIconWinPara.yPosWin  = MIDWIN_yPos;							          //窗口的起始位置
 	_MainIconWinPara.xSizeWin = _MainIconWinPara.xSizeLCD;						      //窗口尺寸
 	_MainIconWinPara.ySizeWin = _MainIconWinPara.ySizeLCD-_MainIconWinPara.yPosWin;	//窗口尺寸
