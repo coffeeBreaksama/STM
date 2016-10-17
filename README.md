@@ -1,6 +1,16 @@
 # STM
 Updata:2016.10.17
-# Runnable version:     
+This is a GUI for sth industrial robots, My first projec that have given me a very large improve.
+Cuz those code ,I realize read books(such as 《sicp》) is not the best way for me.I just write !Not read!
+Oh, my English is not fine ,I hope you can understand what I mean.
+
+When the first version was done,I find my code was like a shit.
+But throgh re-build of three time, it is not so poor, and depandable most of the time.
+
+The next project is using Linux and php to build a website.GOODLUCK coffee.
+
+
+#If you want to look What my code do,The Runnable version:     
     Environment: Visual Studio 2010.
     Download: http://pan.baidu.com/s/1bpp8PHH  password：2mq9
     
