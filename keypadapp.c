@@ -15,8 +15,7 @@
 #define BUTTON_HIGHT           37
 #define BUTTON_SpaceX          (4+BUTTON_WHITH) 
 #define BUTTON_SpaceY          (2+BUTTON_HIGHT)
-#define hPointButtonIndex      9
-#define hMinusButtonIndex      11
+
 /*
 *********************************************************************************************************
 *                                      变量
@@ -25,18 +24,19 @@
 WM_HWIN hkeypad=NULL;
 uint8_t keypadflag=0;//键盘是否在使用：1：使用中，0:无效中
 
-static WM_HWIN hEdit;
+static WM_HWIN hEdit;//要输入的EDIT框
 static char strBuffer[50];
-static unsigned char _keyboardModule = 0;//0:不隐藏点，负号。 1：隐藏点负号      2：只隐藏点        3：只隐藏负号      
+static unsigned char _keyboardModule = 0;//0:不隐藏点，负号。 1：隐藏点负号      2：只隐藏点        3：只隐藏负号     4:PasswordModule  
+
 
 typedef struct {
   int          xPos;
   int          yPos;
   int          xSize;
   int          ySize;
-  const char * acLabel;/* 按钮对应的小写字符 */
+  const char * acLabel;//按钮对应的小写字符 
   WM_HWIN     hButton;
-  unsigned char disFlag;
+  unsigned char disFlag;//按钮是否显示的标准
   unsigned int   Id;
 } BUTTON_DATA;
 
@@ -58,66 +58,57 @@ static  BUTTON_DATA _aButtonData[] =
   {5, 300,125,60,"Back",NULL,1,NULL},
   {130, 300,125,60,"OK",NULL,1,NULL}
 };
-/*static  BUTTON_DATA _aButtonData[] = 
-{
 
-  {5, 12, 80, 60, "1",NULL,1},
-  {90, 12, 80, 60, "2",NULL,1},
-  {175, 12, 80, 60, "3",NULL,1},
-  {5, 84, 80, 60, "4",NULL,1},
-  {90, 84, 80, 60, "5",NULL,1},
-  {175, 84, 80, 60, "6",NULL,1},
-  {5, 156, 80, 60, "7",NULL,1},
-  {90, 156, 80, 60, "8",NULL,1},
-  {175, 156, 80, 60, "9",NULL,1},
-  //{5, 228, 80, 60, ".",NULL,1},
-  {5, 228, 250, 60, "0",NULL,1},
-  //{175, 228, 80, 60, "-",NULL,1},
-  {5, 300,125,60,"Back",NULL,1},
-  {130, 300,125,60,"OK",NULL,1}
-};*/
-
+//按照传入的模式更改不同的键盘设置
 static void  _changeKeyboard(int module){
 	switch(module){
-	case 0: _aButtonData[9].disFlag = 1;
-			_aButtonData[11].disFlag = 1;
-			break;
-	case 1:_aButtonData[9].disFlag = 0;
-			_aButtonData[11].disFlag = 0;	
-			break;
-	case 2:_aButtonData[9].disFlag = 0;
-			_aButtonData[11].disFlag = 1;
-			break;
-	case 3:_aButtonData[9].disFlag = 1;
-			_aButtonData[11].disFlag = 0;
-			break;
+		case 0: _aButtonData[9].disFlag = 1;
+				_aButtonData[11].disFlag = 1;
+				break;
+		case 1:_aButtonData[9].disFlag = 0;
+				_aButtonData[11].disFlag = 0;	
+				break;
+		case 2:_aButtonData[9].disFlag = 0;
+				_aButtonData[11].disFlag = 1;
+				break;
+		case 3:_aButtonData[9].disFlag = 1;
+				_aButtonData[11].disFlag = 0;
+				break;
+		case 4:_aButtonData[9].disFlag = 0;
+				_aButtonData[11].disFlag = 0;;
+				break;
+		default: break;
 	}
 
 
 }
+//识别键盘被按下的按钮并输入到EDIT框
 static void  _keyboardInput(int Id){
 	int i;
-	for(i = ID_BUTTON; i < ID_BUTTON + 12; i++)
-		{
+	
+	for(i = ID_BUTTON; i < ID_BUTTON + 12; i++){
 		if(Id == i){
-			EDIT_GetText(hEdit,strBuffer,30);
+			if(_keyboardModule == 4)MULTIEDIT_GetText(hEdit,strBuffer,30);
+			else EDIT_GetText(hEdit,strBuffer,30);
+			
 			if(_keyboardModule == 0) sprintf(strBuffer,"%s%s",strBuffer,_aButtonData[i - ID_BUTTON].acLabel);
 			else sprintf(strBuffer,"%s%s",strBuffer,_aButtonData[i - ID_BUTTON].acLabel);
-			EDIT_SetText(hEdit,strBuffer);
-			}
+			
+			if(_keyboardModule == 4)MULTIEDIT_SetText(hEdit,strBuffer);
+			else EDIT_SetText(hEdit,strBuffer);
+			
 		}
+	}
 		if(Id == ID_BUTTON + 12){
-			EDIT_AddKey(hEdit,GUI_KEY_BACKSPACE);	
-			}
+			if(_keyboardModule == 4)MULTIEDIT_AddKey(hEdit,GUI_KEY_BACKSPACE);
+			else EDIT_AddKey(hEdit,GUI_KEY_BACKSPACE);	
+		}
 		if(Id == ID_BUTTON + 13){
 			WM_DeleteWindow(hkeypad);
 			keypadflag = 0;
-			}
-
-
-	
-
+		}
 }
+//创建键盘窗口函数
 static void  _creatKeyboard(WM_MESSAGE * pMsg){
 	WM_HWIN    hWin = pMsg->hWin;
 	WM_HWIN    hButton;
@@ -137,14 +128,7 @@ static void  _creatKeyboard(WM_MESSAGE * pMsg){
 			}
 	keypadflag = 1;
 }
-/*
-*********************************************************************************************************
-*	函 数 名: _cbKeyPad
-*	功能说明: 回调函数
-*	形    参：pMsg  指针参数
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+//回调函数
 static void _cbKeyPad(WM_MESSAGE * pMsg) 
 {
 	WM_HWIN    hWin;
@@ -153,12 +137,11 @@ static void _cbKeyPad(WM_MESSAGE * pMsg)
 	int        ySize;
 	int  Id, i;
 	hWin = pMsg->hWin;
-	switch (pMsg->MsgId) 
-	{
-		/* 创建所需的按钮 */
+	switch (pMsg->MsgId) {
 		case WM_CREATE:
 			_creatKeyboard(pMsg);
 			break;
+		
 		case WM_DELETE:
 			hkeypad = NULL;
 			keypadflag = 0;
@@ -167,7 +150,7 @@ static void _cbKeyPad(WM_MESSAGE * pMsg)
 				_aButtonData[i].Id = NULL;
 			}
 		break;
-		/* 绘制背景 */	
+	
 		case WM_PAINT:	
 			xSize = WM_GetWindowSizeX(hWin);
 			ySize = WM_GetWindowSizeY(hWin);
@@ -176,7 +159,7 @@ static void _cbKeyPad(WM_MESSAGE * pMsg)
 			GUI_DrawGradientV(1, 1, xSize - 2, ySize - 2, COLOR_KEYPAD0, COLOR_KEYPAD1);
 			break;
 		
-		/* 用于处理按钮的消息 */
+
 		case WM_NOTIFY_PARENT:
 			Id    = WM_GetId(pMsg->hWinSrc);
 			NCode = pMsg->Data.v;
@@ -189,40 +172,29 @@ static void _cbKeyPad(WM_MESSAGE * pMsg)
 			break;
 	}
 }
-/*
-*********************************************************************************************************
-*	函 数 名: MainAPP
-*	功能说明: GUI主函数 
-*	形    参：hwin:控件句柄
-*         ：flag：0：表示是EDIT控件
-*                 1：表示是MULTIEDIT控件
-*	返 回 值: 无
-*********************************************************************************************************
-*/
+//用于外部调用的唤起键盘函数，参数为EDIT句柄和键盘模式
 void KeyPad_Interface(uint16_t hwin,uint8_t module)
 {	
 	_changeKeyboard(module);
 	 if(keypadflag==0)
 	  {
 		_keyboardModule = module;
-		keypadflag=1;//使能键盘
+		keypadflag=1;
 		hkeypad=WM_CreateWindowAsChild(540, 35, 266, 370, HDTWIN, WM_CF_SHOW | WM_CF_STAYONTOP|WM_CF_MEMDEV, _cbKeyPad, 0);
+		__WindowsInfo[UI_GetWindowInfoIndexId(FORMID_KEYBOARD)].FrmHandle = hkeypad;
 	 }else if(keypadflag==1 && hkeypad != NULL && _keyboardModule != module)
 	 {	
 		WM_DeleteWindow(hkeypad);
 		_keyboardModule = module;
-		keypadflag=1;//使能键盘
+		keypadflag=1;
 		hkeypad=WM_CreateWindowAsChild(540, 35, 266, 370, HDTWIN, WM_CF_SHOW | WM_CF_STAYONTOP|WM_CF_MEMDEV, _cbKeyPad, 0);
+		__WindowsInfo[UI_GetWindowInfoIndexId(FORMID_KEYBOARD)].FrmHandle = hkeypad;
 	 }
   		
 	 
 	WM_BringToTop(hkeypad);
 	GUI_Delay(10);
-	//控件句柄
 	hEdit = hwin;
   
-
-	
-	/* 设置聚焦 */
 	WM_SetFocus(hEdit);
 }

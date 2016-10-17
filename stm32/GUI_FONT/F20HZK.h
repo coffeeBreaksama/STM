@@ -1,3 +1,5 @@
+#ifndef __F20HZK_H__
+#define __F20HZK_H__
 #include "GUI.h"
 #ifndef GUI_FLASH
     #define GUI_FLASH
@@ -9889,3 +9891,5 @@ GUI_FLASH const GUI_FONT_PROP GUI_Font20HZK_Prop1 = {
 GUI_FLASH const GUI_FONT GUI_Font20HZK = {
     GUI_FONTTYPE_PROP_SJIS   ,20   ,20   ,1   ,1   ,(void GUI_FLASH *)&GUI_Font20HZK_Prop1
 };
+
+#endif

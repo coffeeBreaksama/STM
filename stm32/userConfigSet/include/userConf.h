@@ -1,6 +1,6 @@
 #ifndef __userConf_h__
 #define __userConf_h__
-//0:不隐藏点，负号。 1：隐藏点负号 char     2：只隐藏点        3：只隐藏负号 float 
+
 typedef struct {
 	unsigned char testMethodLaOrYa;
 	unsigned char ctrlMethod;
@@ -48,6 +48,8 @@ typedef struct {
 	float dnLimitClampDisp;//下限位夹距之间的距离
 	float testClampDisp;//下限位夹距之间的距离
 
+	unsigned int gasInTime;//加气时间
+	unsigned int gasOutTime;//放气时间
 
 } CONFIG_DATA_U; //用户试用设置数据
 
@@ -58,53 +60,57 @@ typedef struct {
 	unsigned char hour;
 	unsigned char minute;
 	unsigned char second;
-} DT;
+}DT;
 
-void USER_Set_testMethodLaOrYa (unsigned char data);
-void USER_Set_ctrlMethod (unsigned char data);
-void USER_Set_fTestSpeed (float data);
-void USER_Set_fFastSpeed (float data);		
-void USER_Set_fSlowSpeed (float data);
-void USER_Set_fLoadKeeping (float data);
-void USER_Set_chiSuPrecent (unsigned char data);
-void USER_Set_loadKeepPrec (unsigned char data);
-void USER_Set_fJudgeBreakBegin(unsigned char data);
-void USER_Set_overLoadPre (unsigned char data);
-void USER_Set_loadProtect (int data);
-void USER_Set_dispProtect (int data);
-void USER_Set_whichLoadCell (unsigned char data);
-void USER_Set_whichElongCell (unsigned char data);
-void USER_Set_loadUion (unsigned char data);
-void USER_Set_elongUion (unsigned char data);
-void USER_Set_stressUion (unsigned char data);
-void USER_Set_languageSel (unsigned char data);
-void USER_Set_curveSel (unsigned char data);
-void USER_Set_fYujinli (float data);
-void USER_Set_yujinClrFlagLoad (unsigned char data);
-void USER_Set_yujinClrFlagDisp (unsigned char data);
 
-void USER_Set_breakJudgePrecent (unsigned char data);
-void USER_Set_printerType (unsigned char data);
-void USER_Set_speedBegin (unsigned char data);
-void USER_Set_aCol (unsigned char data);
-void USER_Set_dispFrom (unsigned char data);
-void USER_Set_dnLimitClampDisp (float data);
-void USER_Set_testClampDisp (float data);
-void USER_Set_fTimeProtect (char data);
-void USER_Set_m_fLoadSpeed (char data);
-void USER_Set_bClosed (float data);
-void USER_Set_fTimeLoadKeep (unsigned int data);
-void USER_Set_autoReturn (unsigned char data);
-void USER_Set_printerIntensity(unsigned char data);
 
-void USER_Set_fTimeStop (float data);
-void USER_Set_fLoadStop (float data);
-void USER_Set_fDispStop (float data);
+void User_Set_testMethodLaOrYa (unsigned char data);
+void User_Set_ctrlMode (unsigned char data);
+void User_Set_fTestSpeed (float data);
+void User_Set_fFastSpeed (float data);		
+void User_Set_fSlowSpeed (float data);
+void User_Set_fLoadKeeping (float data);
+void User_Set_chiSuPrecent (int data);
+void User_Set_loadKeepPrec (int data);
+void User_Set_fJudgeBreakBegin(int data);
+void User_Set_overLoadPre (int data);
+void User_Set_loadProtect (int data);
+void User_Set_dispProtect (int data);
+void User_Set_whichLoadCell (unsigned char data);
+void User_Set_whichElongCell (unsigned char data);
+void User_Set_loadUion (unsigned char data);
+void User_Set_elongUion (unsigned char data);
+void User_Set_stressUion (unsigned char data);
+void User_Set_languageSel (unsigned char data);
+void User_Set_curveSel (unsigned char data);
+void User_Set_fYujinli (float data);
+void User_Set_yujinClrFlagLoad (unsigned char data);
+void User_Set_yujinClrFlagDisp (unsigned char data);
 
-void SYS_Set_year(unsigned short data);
-void SYS_Set_month(unsigned char data);
-void SYS_Set_day(unsigned char data);
-void SYS_Set_hour(unsigned char data);
-void SYS_Set_minute(unsigned char data);
-void SYS_Set_second(unsigned char data);
+void User_Set_breakJudgePrecent (int data);
+void User_Set_printerType (unsigned char data);
+void User_Set_speedBegin (int data);
+void User_Set_aCol (int data);
+void User_Set_dispFrom (unsigned char data);
+void User_Set_dnLimitClampDisp (float data);
+void User_Set_testClampDisp (float data);
+void User_Set_fTimeProtect (int data);
+void User_Set_bClosed (float data);
+void User_Set_fTimeLoadKeep (int data);
+void User_Set_autoReturn (unsigned char data);
+void User_Set_printerIntensity(unsigned char data);
+
+void User_Set_fTimeStop (float data);
+void User_Set_fLoadStop (float data);
+void User_Set_fDispStop (float data);
+
+void SYS_Set_year(int data);
+void SYS_Set_month(int data);
+void SYS_Set_day(int data);
+void SYS_Set_hour(int data);
+void SYS_Set_minute(int data);
+void SYS_Set_second(int data);
+
+void User_Set_gasInTime (int data);
+void User_Set_gasOutTime (int data);
 #endif

@@ -15,28 +15,37 @@ SAMPLE_SAVE_INFO __sampleInfo = {
 void SAMPLE_Set_square(float fData)
 {	
 	unsigned char testType = __configDataU.testMethodLaOrYa;
-	__sampleInfo.square[testType] = fData;
+	if(0.001 <= fData <= 999)	__sampleInfo.square[testType] = fData;
+	else ERR_ThrowError(0);	
+
 }
 
 void SAMPLE_Set_fWidthLoaded(float fData)
 {
 	unsigned char testType = __configDataU.testMethodLaOrYa;
-	__sampleInfo.fWidthLoaded[testType] = fData;
+	if(0.1 <= fData <= 1000)	__sampleInfo.fWidthLoaded[testType] = fData;
+	else ERR_ThrowError(0);	
+
 }
 
 void SAMPLE_Set_StandartLen(float fData)
 {
-	__sampleInfo.StandartLen = fData;
+	unsigned char testType = __configDataU.testMethodLaOrYa;
+	if(1 <= fData <= 1000)	__sampleInfo.StandartLen = fData;
+	else ERR_ThrowError(0);		
 }
 
 void SAMPLE_Set_g(float fData)
 {
-	__sampleInfo.g = fData;
+	if(0.1 <= fData <= 1000)	__sampleInfo.g = fData;
+	else ERR_ThrowError(0);	
+
 }
 
 void SAMPLE_Set_timeWillUsed(unsigned int Data)
 {
-	__sampleInfo.timeWillUsed = Data;
+	if(100 <= Data <= 99999)	__sampleInfo.timeWillUsed = Data;
+	else ERR_ThrowError(0);		
 }
 
 

@@ -1,6 +1,8 @@
 #ifndef __SystemConf_h__
 #define __SystemConf_h__
 
+
+#include "app.h"
 typedef struct {
 	unsigned char vh;
 	unsigned char vm;
@@ -9,7 +11,7 @@ typedef struct {
 
 typedef struct {
 	VESION_INFO vInfo;//版本号
-	unsigned char softAppType;//控制器类型
+//	unsigned char controlerType;//控制器类型
 
 	unsigned char motorType;//电机类型
 	unsigned char machineDirType;//机器方向类型，上拉下压
@@ -32,30 +34,31 @@ typedef struct {
 } SENSOR_CONFIG; //传感器参数
 
 typedef struct {
-	float encodeCoe[3];//xishu
+	float encodeCoe[3];//系数
 	unsigned short int speedCoe[12];//speed	
 	unsigned  int speedCoe2[2];	
 } EM_CONFIG;    //enoder and moto speed config
 
+unsigned char RunSysSetNextStep(void);
+unsigned char RunLoadSetNextStep(void);
 
+void Sys_Set_controlerType (unsigned char data);
+void Sys_Set_motorType (unsigned char data);
+void Sys_Set_machineDirType (unsigned char data);
+void Sys_Set_dispFrom (int data);
+void Sys_Set_zeroStableCol (int data);
+void Sys_Set_showOpenPic (unsigned char data);
+void Sys_Set_filterCol (int data);
+void Sys_Set_scaleIndex (unsigned char data);
 
-void SYSTEM_Set_softAppType (unsigned char data);
-void SYSTEM_Set_motorType (unsigned char data);
-void SYSTEM_Set_machineDirType (unsigned char data);
-void SYSTEM_Set_dispFrom (unsigned char data);
-void SYSTEM_Set_zeroStableCol (unsigned char data);
-void SYSTEM_Set_showOpenPic (unsigned char data);
-void SYSTEM_Set_filterCol (unsigned char data);
+void Sensor_Set_sensorType (unsigned char data);
+void Sensor_Set_maxFS (int data);
+void Sensor_Set_unitType (unsigned char data);
+void Sensor_Set_zero (int data);
+void Sensor_Set_softAmplify (int data, unsigned char index);
 
-
-void SENSOR_Set_sensorType (unsigned char data);
-void SENSOR_Set_maxFS (unsigned short data);
-void SENSOR_Set_unitType (unsigned char data);
-void SENSOR_Set_zero (short data);
-void SENSOR_Set_softAmplify (unsigned char data);
-
-void EMCONFIG_Set_encodeCoe(float data);
-void EMCONFIG_Set_speedCoe(float data);
-void EMCONFIG_Set_speedCoe2(unsigned  int data);
+void Encoder_Set_encodeCoe(float data,unsigned char index);
+void Encoder_Set_speedCoe(int data,unsigned char index);
+void Encoder_Set_speedCoe2(int data,unsigned char index);
 
 #endif
