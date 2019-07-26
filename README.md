@@ -1,3 +1,6 @@
+一个基于STM32的emWin应用程序，用于某工业测控仪器的触控屏，用以实现、控制下面具体机器用的UI交互界面。
+16年时候做的，现在可能有些落伍掉了。下面的那些都是年轻时候无病呻吟，不看也没关系
+
 # STM
 Updata:2016.10.17
 This is a GUI for sth industrial robots, My first projec that have given me a very large improve.
